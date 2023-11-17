@@ -20,5 +20,9 @@ A full example of using the repository can be found here [ipfs-node-examples](ht
 
 ### Usage
 
-I strongly recommend using this module separately from the main application using the microservices structure. 
+I strongly recommend using this module separately from the main application using the microservices structure.
 For example, you can create RPC when using IPFS nodes.
+
+### License
+
+Licensed under MIT ([LICENSE](LICENSE) / http://opensource.org/licenses/MIT)
