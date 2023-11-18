@@ -6,7 +6,15 @@ const start = async () => {
   const cid = await ipfsNode.push(buffer);
   const res = await ipfsNode.fetch(cid);
   if (res.toString() !== buffer.toString()) throw new Error("> Test fail!");
-  console.log("> Test passed successfully.", cid);
+  return cid;
 };
 
-start();
+start()
+  .catch((e) => {
+    console.error(e);
+    process.exit(1);
+  })
+  .then((e) => {
+    console.log("> Test passed successfully.", e);
+    process.exit(0);
+  });

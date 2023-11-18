@@ -1,19 +1,26 @@
 # IPFS Node
 
-[ipfs-node](https://github.com/0xdino/ipfs-node) is a typescript library that simplifies the use of IPFS based on typescript using the [helia](https://github.com/ipfs/helia) library.
+[ipfs-node](https://github.com/0xdino/ipfs-node) is a typescript library that simplifies the use of [IPFS](https://ipfs.tech/) based on typescript using the [helia](https://github.com/ipfs/helia) library.
 
-Example:
+#### Installation:
+
+```bash
+npm install ipfs-node
+#OR
+yarn add ipfs-node
+#OR
+pnpm add ipfs-node
+```
+
+#### Example:
 
 ```ts
 const ipfsNode = await RunIpfsNode.run();
-
-const cid = await ipfsNode.push(
-  Buffer.from(new TextEncoder().encode("Hello world!"))
-);
-console.log("> Added file:", cid.toString());
-
+const buffer = Buffer.from(new TextEncoder().encode("Hello world!"));
+const cid = await ipfsNode.push(buffer);
 const res = await ipfsNode.fetch(cid);
-console.log("> Added file contents:", new TextDecoder().decode(res));
+if (res.toString() !== buffer.toString()) throw new Error("> Test fail!");
+console.log("> Test passed successfully.", cid);
 ```
 
 A full example of using the repository can be found here [ipfs-node-examples](https://github.com/0xdino/ipfs-node-examples).

@@ -6,7 +6,8 @@
   "private": false,
   "keywords": [
     "ipfs",
-    "helia"
+    "helia",
+    "ipfs-node"
   ],
   "repository": "https://github.com/0xdino/ipfs-node.git",
   "license": "MIT",
@@ -33,8 +34,6 @@
     "libp2p": "^0.46.14"
   },
   "devDependencies": {
-    "@types/node": "^20.9.0",
-    "ts-node": "^10.9.1",
     "tsx": "^4.1.3",
     "typescript": "^5.2.2"
   }
