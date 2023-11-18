@@ -1,6 +1,6 @@
 {
   "name": "ipfs-node",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "This repository allows you to create your own ipfs node when using helia.",
   "author": "https://github.com/0xdino",
   "private": false,
@@ -17,10 +17,13 @@
     "test": "tsx ./src/tests/index.ts"
   },
   "exports": [
-    "./src/index.ts"
+    "./src/index.ts",
+    "./src/helpers/*.{ts}",
+    "./src/services/*.{ts}",
+    "./src/tests/*.{ts}"
   ],
   "files": [
-    "**/*.{ts}"
+    "src"
   ],
   "dependencies": {
     "@chainsafe/libp2p-noise": "^13.0.1",
