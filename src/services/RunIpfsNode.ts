@@ -1,7 +1,7 @@
-import { Helia } from "helia";
-import { Libp2p } from "libp2p";
-import createNode from "../helpers/createNode";
-import IpfsNode from "./IpfsNode";
+import { Helia } from 'helia';
+import { Libp2p } from 'libp2p';
+import createNode from '../helpers/createNode';
+import IpfsNode from './IpfsNode';
 
 class RunIpfsNode {
   constructor() {}
@@ -17,7 +17,7 @@ class RunIpfsNode {
    * @param node - IPFS node
    * @returns - IpfsNode prototype
    */
-  public async runFromNode(node: Helia<Libp2p<any>>) {
+  public async runFromNode(node: Helia<Libp2p<any>>): Promise<IpfsNode> {
     return new IpfsNode(node);
   }
 
