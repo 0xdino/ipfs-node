@@ -3,10 +3,7 @@ name: Test CI
 on:
   push:
     branches:
-      - main
-  pull_request:
-    branches:
-      - '**'
+      - '*'
 jobs:
   deploy:
     runs-on: ubuntu-22.04
