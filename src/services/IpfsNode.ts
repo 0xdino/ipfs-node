@@ -7,7 +7,7 @@ export default class IpfsNode {
   private readonly _node: Helia<Libp2p<any>>;
   private readonly _fs: UnixFS;
 
-  constructor(node: Helia<Libp2p<any>>) {
+  constructor(node: Helia<Libp2p>) {
     this._fs = unixfs(node);
     this._node = node;
   }

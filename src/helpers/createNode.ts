@@ -5,13 +5,13 @@ import { tcp } from '@libp2p/tcp';
 import { MemoryBlockstore } from 'blockstore-core';
 import { MemoryDatastore } from 'datastore-core';
 import { createHelia } from 'helia';
-import { createLibp2p } from 'libp2p';
+import { Libp2p, createLibp2p } from 'libp2p';
 import { identify } from '@libp2p/identify';
 
 export default async function createNode() {
   const blockstore = new MemoryBlockstore();
   const datastore = new MemoryDatastore();
-  const libp2p = await createLibp2p({
+  const libp2p: Libp2p = await createLibp2p({
     datastore,
     addresses: {
       listen: ['/ip4/127.0.0.1/tcp/0'],
