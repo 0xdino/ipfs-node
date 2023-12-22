@@ -1,7 +1,7 @@
-import { CatOptions, UnixFS, unixfs } from "@helia/unixfs";
-import { Helia } from "helia";
-import { Libp2p } from "libp2p";
-import { CID, Version } from "multiformats/cid";
+import { CatOptions, UnixFS, unixfs } from '@helia/unixfs';
+import { Helia } from 'helia';
+import { Libp2p } from 'libp2p';
+import { CID, Version } from 'multiformats';
 
 export default class IpfsNode {
   private readonly _node: Helia<Libp2p<any>>;
@@ -19,7 +19,7 @@ export default class IpfsNode {
    */
   public async fetch(
     cid: string | CID<unknown, number, number, Version>,
-    options?: Partial<CatOptions> | undefined
+    options?: Partial<CatOptions> | undefined,
   ): Promise<Buffer> {
     const chunks: Uint8Array[] = [];
     for await (const chunk of this._fs.cat(cid as CID, options)) {
@@ -33,7 +33,7 @@ export default class IpfsNode {
    * @returns - object cid in IPFS
    */
   public async push(
-    buffer: Buffer
+    buffer: Buffer,
   ): Promise<CID<unknown, number, number, Version>> {
     return await this._fs.addBytes(buffer);
   }
