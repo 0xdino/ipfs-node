@@ -2,7 +2,7 @@ import RunIpfsNode, { IpfsNode } from '../dist';
 
 const start = async () => {
   console.log('> Start test...');
-  const ipfsNode: IpfsNode = RunIpfsNode.run();
+  const ipfsNode: IpfsNode = RunIpfsNode.run({ url: 'ipfs:5001' });
 
   const random =
     new Date().getTime().toString() + (Math.random() * 2 ** 64).toString(16);
