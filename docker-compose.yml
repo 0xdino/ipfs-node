@@ -5,12 +5,6 @@ services:
     image: ipfs/kubo
     restart: unless-stopped
     container_name: ipfs
-    volumes:
-      - ipfs_path:/data/ipfs
-      - ipfs_fuse:/ipfs
-      - ipns_fuse:/ipns
-    environment:
-      - IPFS_PATH=/data/ipfs
     ports:
       - 4001:4001/tcp
       - 4001:4001/udp
