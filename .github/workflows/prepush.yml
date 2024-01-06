@@ -33,5 +33,7 @@ jobs:
         run: docker ps -a
       - name: Logs IPFS
         run: docker logs ipfs
+      - name: Wait
+        run: sleep 20
       - name: Logs test
         run: docker logs app
