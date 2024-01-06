@@ -31,9 +31,11 @@ jobs:
         run: docker compose up -d --build
       - name: Docker containers
         run: docker ps -a
+      - name: Wait
+        run: sleep 10
       - name: Logs IPFS
         run: docker logs ipfs
       - name: Wait
-        run: sleep 20
+        run: sleep 10
       - name: Logs test
         run: docker logs app
