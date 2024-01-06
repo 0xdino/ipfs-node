@@ -1,26 +1,32 @@
 /// <reference types="node" />
-import { CatOptions, UnixFS } from '@helia/unixfs';
-import { Helia } from 'helia';
-import { Libp2p } from 'libp2p';
-import { CID, Version } from 'multiformats';
+import { HTTPClientExtraOptions, IPFSHTTPClient } from 'kubo-rpc-client';
+import { CID } from 'multiformats';
+export interface IAddResult {
+  cid: CID;
+  size: number;
+  path: string;
+  mode?: number;
+}
 export default class IpfsNode {
-  private readonly _node;
-  private readonly _fs;
-  constructor(node: Helia<Libp2p>);
+  private readonly _client;
+  constructor(client?: IPFSHTTPClient);
   /**
    * @param cid - object cid in IPFS
-   * @param options - See Partial<CatOptions>
+   * @param options - See HTTPClientExtraOptions
    * @returns - Buffer of the received file from IPFS
    */
-  fetch(
-    cid: string | CID<unknown, number, number, Version>,
-    options?: Partial<CatOptions> | undefined,
-  ): Promise<Buffer>;
+  fetch(cid: string | CID, options?: HTTPClientExtraOptions): Promise<Buffer>;
   /**
    * @param buffer - Buffer of the file to IPFS
-   * @returns - object cid in IPFS
+   * @returns
+   * cid - object cid in IPFS
+   * size - size of file
+   * path - ipfs path
+   * mode - ipfs mode
    */
-  push(buffer: Buffer): Promise<CID<unknown, number, number, Version>>;
-  get node(): Helia<Libp2p<any>>;
-  get fs(): UnixFS;
+  push(buffer: Buffer): Promise<IAddResult>;
+  /**
+   * @returns - IPFS HTTP Client
+   */
+  get node(): IPFSHTTPClient;
 }

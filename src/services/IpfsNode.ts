@@ -1,28 +1,39 @@
-import { CatOptions, UnixFS, unixfs } from '@helia/unixfs';
-import { Helia } from 'helia';
-import { Libp2p } from 'libp2p';
-import { CID, Version } from 'multiformats';
+import {
+  HTTPClientExtraOptions,
+  IPFSHTTPClient,
+  create,
+} from 'kubo-rpc-client';
+import { CID } from 'multiformats';
+
+export interface IAddResult {
+  cid: CID;
+  size: number;
+  path: string;
+  mode?: number;
+}
 
 export default class IpfsNode {
-  private readonly _node: Helia<Libp2p<any>>;
-  private readonly _fs: UnixFS;
+  private readonly _client: IPFSHTTPClient;
 
-  constructor(node: Helia<Libp2p>) {
-    this._fs = unixfs(node);
-    this._node = node;
+  constructor(client?: IPFSHTTPClient) {
+    if (client) {
+      this._client = client;
+    } else {
+      this._client = create();
+    }
   }
 
   /**
    * @param cid - object cid in IPFS
-   * @param options - See Partial<CatOptions>
+   * @param options - See HTTPClientExtraOptions
    * @returns - Buffer of the received file from IPFS
    */
   public async fetch(
-    cid: string | CID<unknown, number, number, Version>,
-    options?: Partial<CatOptions> | undefined,
+    cid: string | CID,
+    options?: HTTPClientExtraOptions,
   ): Promise<Buffer> {
     const chunks: Uint8Array[] = [];
-    for await (const chunk of this._fs.cat(cid as CID, options)) {
+    for await (const chunk of this._client.cat(cid, options)) {
       chunks.push(chunk);
     }
     return Buffer.concat(chunks);
@@ -30,19 +41,26 @@ export default class IpfsNode {
 
   /**
    * @param buffer - Buffer of the file to IPFS
-   * @returns - object cid in IPFS
+   * @returns
+   * cid - object cid in IPFS
+   * size - size of file
+   * path - ipfs path
+   * mode - ipfs mode
    */
-  public async push(
-    buffer: Buffer,
-  ): Promise<CID<unknown, number, number, Version>> {
-    return await this._fs.addBytes(buffer);
+  public async push(buffer: Buffer): Promise<IAddResult> {
+    const { cid, size, path, mode } = await this._client.add(buffer);
+    return {
+      cid: new CID(cid.version, cid.code, cid.multihash, cid.bytes),
+      size,
+      path,
+      mode,
+    };
   }
 
-  get node(): Helia<Libp2p<any>> {
-    return this._node;
-  }
-
-  get fs(): UnixFS {
-    return this._fs;
+  /**
+   * @returns - IPFS HTTP Client
+   */
+  get node(): IPFSHTTPClient {
+    return this._client;
   }
 }

@@ -34,5 +34,13 @@ jobs:
         run: pnpm prettier:write
       - name: Prettier check
         run: pnpm prettier:check
+      - name: Download Kubo
+        run: wget https://dist.ipfs.tech/kubo/v0.24.0/kubo_v0.24.0_linux-amd64.tar.gz
+      - name: Tar Kubo
+        run: tar -xvzf kubo_v0.24.0_linux-amd64.tar.gz
+      - name: Intall kubo script
+        run: sudo bash ./kubo/install.sh
+      - name: Start IPFS
+        run: ipfs daemon
       - name: Test
         run: pnpm test

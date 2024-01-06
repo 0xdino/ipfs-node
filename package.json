@@ -15,43 +15,40 @@
   "main": "dist/index.js",
   "scripts": {
     "test": "tsx ./test/index.ts",
-    "lint": "eslint \"**/*.ts\" --fix",
+    "lint": "pnpm prettier:write && pnpm prettier:check && eslint \"./src/*.ts\" --fix",
     "prettier:check": "prettier --check ./**/*.{ts,js,json,*rc}",
     "prettier:write": "prettier --write ./**/*.{ts,js,json,*rc}",
     "precommit": "pnpm lint",
     "prepare": "husky install",
     "prepush": "pnpm test",
-    "build": "tsc"
+    "build": "rimraf ./dist && tsc && pnpm babel",
+    "babel": "babel dist --out-dir dist --extensions .js"
   },
-  "exports": [
-    "./dist/index.js"
-  ],
+  "exports": {
+    ".": [
+      "./dist/index.js"
+    ]
+  },
   "files": [
     "dist"
   ],
   "dependencies": {
-    "@chainsafe/libp2p-noise": "^14.1.0",
-    "@chainsafe/libp2p-yamux": "^6.0.1",
-    "@helia/unixfs": "^1.4.3",
-    "@libp2p/bootstrap": "^10.0.9",
-    "@libp2p/identify": "^1.0.8",
-    "@libp2p/tcp": "^9.0.9",
-    "blockstore-core": "^4.3.10",
-    "datastore-core": "^9.2.7",
-    "helia": "^2.1.0",
-    "libp2p": "^1.1.0",
+    "kubo-rpc-client": "^3.0.2",
     "multiformats": "^13.0.0"
   },
   "devDependencies": {
-    "@commitlint/cli": "^18.4.3",
-    "@commitlint/config-conventional": "^18.4.3",
-    "@typescript-eslint/eslint-plugin": "^6.17.0",
-    "@typescript-eslint/parser": "^6.17.0",
+    "@babel/cli": "^7.23.4",
+    "@commitlint/cli": "^18.4.4",
+    "@commitlint/config-conventional": "^18.4.4",
+    "@types/node": "^20.10.6",
+    "@typescript-eslint/eslint-plugin": "^6.18.0",
+    "@typescript-eslint/parser": "^6.18.0",
     "eslint": "^8.56.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.1.2",
     "husky": "^8.0.3",
     "prettier": "^3.1.1",
+    "rimraf": "^5.0.5",
     "tsx": "^4.7.0",
     "typescript": "^5.3.3"
   }
