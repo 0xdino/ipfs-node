@@ -1,0 +1,14 @@
+version: '3.5'
+
+services:
+  ipfs:
+    image: ipfs/kubo
+    restart: unless-stopped
+    container_name: ipfs
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: app
+    depends_on:
+      - ipfs
