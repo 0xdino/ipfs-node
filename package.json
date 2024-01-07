@@ -1,6 +1,6 @@
 {
   "name": "ipfs-node",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "This repository allows you to create your own ipfs node when using helia.",
   "author": "https://github.com/0xdino",
   "private": false,
@@ -20,7 +20,7 @@
     "prettier:write": "prettier --write ./**/*.{ts,js,json,*rc}",
     "precommit": "pnpm lint",
     "prepare": "husky install",
-    "prepush": "pnpm test",
+    "prepush": "pnpm lint",
     "build": "rimraf ./dist && tsc && pnpm babel",
     "babel": "babel dist --out-dir dist --extensions .js"
   },

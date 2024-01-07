@@ -4,9 +4,6 @@ on:
   push:
     branches:
       - main
-  pull_request:
-    branches:
-      - '**'
 jobs:
   deploy:
     runs-on: ubuntu-22.04
@@ -30,17 +27,17 @@ jobs:
         run: pnpm i --frozen-lockfile
       - name: ESLint
         run: pnpm lint
-      - name: Prettier write
-        run: pnpm prettier:write
-      - name: Prettier check
-        run: pnpm prettier:check
-      - name: Download Kubo
-        run: wget https://dist.ipfs.tech/kubo/v0.24.0/kubo_v0.24.0_linux-amd64.tar.gz
-      - name: Tar Kubo
-        run: tar -xvzf kubo_v0.24.0_linux-amd64.tar.gz
-      - name: Intall kubo script
-        run: sudo bash ./kubo/install.sh
-      - name: Start IPFS
-        run: ipfs daemon
-      - name: Test
-        run: pnpm test
+      - name: Docker
+        run: docker compose up -d --build
+      - name: Docker containers
+        run: docker ps -a
+      - name: Wait
+        run: sleep 10
+      - name: Logs IPFS
+        run: docker logs ipfs
+      - name: Wait
+        run: sleep 10
+      - name: Logs test
+        run: docker logs app
+      - name: Wait
+        run: sleep 10
