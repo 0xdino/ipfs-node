@@ -39,3 +39,5 @@ jobs:
         run: sleep 10
       - name: Logs test
         run: docker logs app
+      - name: Wait
+        run: sleep 10
