@@ -3,7 +3,7 @@ import RunIpfsNode, { IpfsNode } from '../dist';
 const start = async () => {
   console.log('> Start test...');
   const ipfsNode: IpfsNode = RunIpfsNode.run({
-    url: new URL('http://127.0.0.1:5001'),
+    url: new URL('http://ipfs:5001'),
   });
 
   const random =
