@@ -32,5 +32,5 @@ start()
   })
   .then((e) => {
     console.log('> Test passed successfully.', e);
-    // process.exit(0);
+    process.exit(0);
   });

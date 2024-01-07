@@ -861,8 +861,8 @@ packages:
       - supports-color
     dev: false
 
-  /@libp2p/interface@1.1.0:
-    resolution: {integrity: sha512-URIKSFtaliBGA8sIg/MGfyjIo5h4jAdfuZl6dXXXmtdfC3X0rry95YuLNYzXtGMuxG/X+pbVht3fykHvPiXUhg==}
+  /@libp2p/interface@1.1.1:
+    resolution: {integrity: sha512-g6xgF+q38ZDTRkjuJfuOByS4N0zGld+VPRiWPXYX8wA/9vS6lqJwKUoC6V33KUhP/zXHCkJaSD6z94fUbNM8vw==}
     dependencies:
       '@multiformats/multiaddr': 12.1.12
       it-pushable: 3.2.3
@@ -930,7 +930,7 @@ packages:
     dependencies:
       '@chainsafe/is-ip': 2.0.2
       '@chainsafe/netmask': 2.0.0
-      '@libp2p/interface': 1.1.0
+      '@libp2p/interface': 1.1.1
       dns-over-http-resolver: 3.0.0
       multiformats: 13.0.0
       uint8-varint: 2.0.3
