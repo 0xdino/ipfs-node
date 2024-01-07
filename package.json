@@ -1,6 +1,6 @@
 {
   "name": "ipfs-node",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "This repository allows you to create your own ipfs node when using helia.",
   "author": "https://github.com/0xdino",
   "private": false,
