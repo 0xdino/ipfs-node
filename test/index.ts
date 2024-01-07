@@ -22,14 +22,6 @@ const start = async () => {
   )
     throw new Error('> Test fail!');
 
-  console.log([
-    (
-      await ipfsNode.fetch(
-        'QmVGmjrHxW49LBmQzXWXS4hdNYVycDD9feiCvQbkwxXcKc',
-      )
-    ).toString(),
-  ]);
-
   return { cid, random };
 };
 
@@ -40,5 +32,5 @@ start()
   })
   .then((e) => {
     console.log('> Test passed successfully.', e);
-    // process.exit(0);
+    process.exit(0);
   });
