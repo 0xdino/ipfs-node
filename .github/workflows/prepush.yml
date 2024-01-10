@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - '*'
+      - '!main'
 jobs:
   deploy:
     runs-on: ubuntu-22.04
@@ -32,7 +33,7 @@ jobs:
       - name: Docker containers
         run: docker ps -a
       - name: Wait
-        run: sleep 20
+        run: sleep 15
       - name: Logs IPFS
         run: docker logs ipfs
       - name: Wait

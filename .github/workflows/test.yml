@@ -32,7 +32,7 @@ jobs:
       - name: Docker containers
         run: docker ps -a
       - name: Wait
-        run: sleep 10
+        run: sleep 15
       - name: Logs IPFS
         run: docker logs ipfs
       - name: Wait
@@ -40,4 +40,4 @@ jobs:
       - name: Logs test
         run: docker logs app
       - name: Wait
-        run: sleep 10
+        run: sleep 30
