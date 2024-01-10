@@ -1,8 +1,13 @@
+import { unixfs } from '@helia/unixfs';
 import { create } from 'kubo-rpc-client';
 import { CID } from 'multiformats';
 export default class IpfsNode {
   _client;
-  constructor(client) {
+  _node;
+  _fs;
+  constructor(node, client) {
+    this._node = node;
+    this._fs = unixfs(this._node);
     if (client) {
       this._client = client;
     } else {
@@ -16,7 +21,7 @@ export default class IpfsNode {
    */
   async fetch(cid, options) {
     const chunks = [];
-    for await (const chunk of this._client.cat(cid, options)) {
+    for await (const chunk of this._fs.cat(cid, options)) {
       chunks.push(chunk);
     }
     return Buffer.concat(chunks);
@@ -41,7 +46,13 @@ export default class IpfsNode {
   /**
    * @returns - IPFS HTTP Client
    */
-  get node() {
+  get client() {
     return this._client;
+  }
+  /**
+   * @returns - IPFS Helia Libp2p
+   */
+  get node() {
+    return this._node;
   }
 }

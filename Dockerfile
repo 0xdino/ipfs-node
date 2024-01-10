@@ -3,6 +3,6 @@ WORKDIR /app
 COPY package.json ./
 COPY pnpm-lock.yaml ./
 RUN npm i -g pnpm
-RUN pnpm i --frozen-lockfile --ignore-scripts
+RUN pnpm i --frozen-lockfile
 COPY . .
-CMD [ "pnpm", "test" ]
+CMD [ "pnpm", "test:prod" ]

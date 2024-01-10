@@ -1,9 +1,9 @@
-import RunIpfsNode, { IpfsNode } from '../dist';
+import { run, IpfsNode } from '../dist';
 
 const start = async () => {
   console.log('> Start test...');
-  const ipfsNode: IpfsNode = RunIpfsNode.run({
-    url: new URL('http://ipfs:5001'),
+  const ipfsNode: IpfsNode = await run({
+    url: new URL(process.env.IPFS_API || ''),
   });
 
   const random =
@@ -21,6 +21,14 @@ const start = async () => {
     ).toString() !== 'Hello world!'
   )
     throw new Error('> Test fail!');
+
+  console.log(new Date());
+  console.log(
+    'ByteLength:',
+    (await ipfsNode.fetch('QmbvjL1GhiGAaeZ9TfxDtgCjQ3Nyj3KM9WXC7K9SPGfbHa'))
+      .byteLength,
+  );
+  console.log(new Date());
 
   return { cid, random };
 };

@@ -16,6 +16,6 @@
     "allowJs": true,
     "skipLibCheck": true
   },
-  "include": ["**/*.ts", "test/index.ts", "test/index.ta"],
+  "include": ["**/*.ts"],
   "exclude": ["node_modules", "dist", "test"]
 }
