@@ -38,6 +38,6 @@ jobs:
       - name: Wait
         run: sleep 10
       - name: Logs test
-        run: docker logs app
+        run: docker logs ipfs-node
       - name: Wait
         run: sleep 30
