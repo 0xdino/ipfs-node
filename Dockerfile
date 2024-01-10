@@ -5,4 +5,4 @@ COPY pnpm-lock.yaml ./
 RUN npm i -g pnpm
 RUN pnpm i --frozen-lockfile --ignore-scripts
 COPY . .
-CMD [ "pnpm", "test" ]
+CMD [ "pnpm", "test:prod" ]

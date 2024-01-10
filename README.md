@@ -4,7 +4,9 @@
 
 [ipfs-node](https://github.com/0xdino/ipfs-node) is a typescript library that simplifies the use of [IPFS](https://ipfs.tech/) based on typescript using the [helia](https://github.com/ipfs/helia) and [kubo-rpc-client](https://github.com/ipfs/js-kubo-rpc-client) library.
 
-#### Installation:
+### Installation:
+
+This library requires running access to the [IPFS Kubo](https://docs.ipfs.tech/install/command-line/) daemon server API.
 
 ```bash
 npm install ipfs-node
@@ -14,7 +16,7 @@ yarn add ipfs-node
 pnpm add ipfs-node
 ```
 
-#### Example:
+### Example:
 
 ```ts
 const ipfsNode = RunIpfsNode.run();

@@ -1,8 +1,7 @@
-import {
-  HTTPClientExtraOptions,
-  IPFSHTTPClient,
-  create,
-} from 'kubo-rpc-client';
+import { Helia } from 'helia';
+import { CatOptions, UnixFS, unixfs } from '@helia/unixfs';
+import { IPFSHTTPClient, create } from 'kubo-rpc-client';
+import { Libp2p } from 'libp2p';
 import { CID } from 'multiformats';
 
 export interface IAddResult {
@@ -14,8 +13,12 @@ export interface IAddResult {
 
 export default class IpfsNode {
   private readonly _client: IPFSHTTPClient;
+  private readonly _node: Helia<Libp2p>;
+  private readonly _fs: UnixFS;
 
-  constructor(client?: IPFSHTTPClient) {
+  constructor(node: Helia<Libp2p>, client?: IPFSHTTPClient) {
+    this._node = node;
+    this._fs = unixfs(this._node);
     if (client) {
       this._client = client;
     } else {
@@ -30,10 +33,10 @@ export default class IpfsNode {
    */
   public async fetch(
     cid: string | CID,
-    options?: HTTPClientExtraOptions,
+    options?: Partial<CatOptions> | undefined,
   ): Promise<Buffer> {
     const chunks: Uint8Array[] = [];
-    for await (const chunk of this._client.cat(cid, options)) {
+    for await (const chunk of this._fs.cat(cid as CID, options)) {
       chunks.push(chunk);
     }
     return Buffer.concat(chunks);
@@ -60,7 +63,14 @@ export default class IpfsNode {
   /**
    * @returns - IPFS HTTP Client
    */
-  get node(): IPFSHTTPClient {
+  get client(): IPFSHTTPClient {
     return this._client;
+  }
+
+  /**
+   * @returns - IPFS Helia Libp2p
+   */
+  get node(): Helia<Libp2p> {
+    return this._node;
   }
 }
