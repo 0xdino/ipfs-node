@@ -9,7 +9,7 @@ const start = async () => {
   const random =
     new Date().getTime().toString() + (Math.random() * 2 ** 64).toString(16);
   const buffer: Buffer = Buffer.from(new TextEncoder().encode(random));
-  const { cid } = await ipfsNode.push(buffer);
+  const { cid } = await ipfsNode.push(buffer, { cidVersion: 0 });
   const res: Buffer = await ipfsNode.fetch(cid);
   if (res.toString() !== buffer.toString()) throw new Error('> Test fail!');
 
@@ -29,6 +29,12 @@ const start = async () => {
       .byteLength,
   );
   console.log(new Date());
+
+  console.log(
+    'List length:',
+    (await ipfsNode.ls('QmVaZb25GyfxJrtCKSKNKtx7JZ5dJQ9bRq8kSP7ddovbaX'))
+      .length,
+  );
 
   return { cid, random };
 };

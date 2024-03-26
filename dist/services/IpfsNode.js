@@ -15,9 +15,10 @@ export default class IpfsNode {
     }
   }
   /**
-   * @param cid - object cid in IPFS
-   * @param options - See HTTPClientExtraOptions
-   * @returns - Buffer of the received file from IPFS
+   * @notice Retrieve the contents from node.
+   * @param cid - object cid in IPFS.
+   * @param options - See CatOptions.
+   * @returns - Buffer of the received file from IPFS.
    */
   async fetch(cid, options) {
     const chunks = [];
@@ -27,21 +28,42 @@ export default class IpfsNode {
     return Buffer.concat(chunks);
   }
   /**
-   * @param buffer - Buffer of the file to IPFS
-   * @returns
-   * cid - object cid in IPFS
-   * size - size of file
-   * path - ipfs path
-   * mode - ipfs mode
+   * @notice Import a file or data into IPFS.
+   * @param buffer - File or data import candidate to IPFS.
+   * @param options - See AddOptions & HTTPClientExtraOptions.
+   * @returns cid - object cid in IPFS
+   *          size - size of file
+   *          path - ipfs path
+   *          mode - ipfs mode
    */
-  async push(buffer) {
-    const { cid, size, path, mode } = await this._client.add(buffer);
+  async push(buffer, options) {
+    const { cid, size, path, mode } = await this._client.add(buffer, options);
     return {
       cid: new CID(cid.version, cid.code, cid.multihash, cid.bytes),
       size,
       path,
       mode,
     };
+  }
+  /**
+   * @notice Lists a directory from IPFS that is addressed by a valid IPFS Path.
+   * @param cid - object cid in IPFS.
+   * @param options - see ListOptions.
+   */
+  async ls(cid, options) {
+    const chunks = [];
+    for await (const chunk of this._client.ls(cid, options)) {
+      chunks.push({
+        ...chunk,
+        cid: new CID(
+          chunk.cid.version,
+          chunk.cid.code,
+          chunk.cid.multihash,
+          chunk.cid.bytes,
+        ),
+      });
+    }
+    return chunks;
   }
   /**
    * @returns - IPFS HTTP Client

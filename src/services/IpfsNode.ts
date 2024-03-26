@@ -1,15 +1,19 @@
 import { Helia } from 'helia';
 import { CatOptions, UnixFS, unixfs } from '@helia/unixfs';
-import { IPFSHTTPClient, create } from 'kubo-rpc-client';
+import {
+  HTTPClientExtraOptions,
+  IPFSHTTPClient,
+  create,
+} from 'kubo-rpc-client';
 import { Libp2p } from 'libp2p';
 import { CID } from 'multiformats';
-
-export interface IAddResult {
-  cid: CID;
-  size: number;
-  path: string;
-  mode?: number;
-}
+import {
+  AddOptions,
+  AddResult,
+  ImportCandidate,
+  IPFSEntry,
+  ListOptions,
+} from '../types';
 
 export default class IpfsNode {
   private readonly _client: IPFSHTTPClient;
@@ -27,9 +31,10 @@ export default class IpfsNode {
   }
 
   /**
-   * @param cid - object cid in IPFS
-   * @param options - See HTTPClientExtraOptions
-   * @returns - Buffer of the received file from IPFS
+   * @notice Retrieve the contents from node.
+   * @param cid - object cid in IPFS.
+   * @param options - See CatOptions.
+   * @returns - Buffer of the received file from IPFS.
    */
   public async fetch(
     cid: string | CID,
@@ -43,21 +48,50 @@ export default class IpfsNode {
   }
 
   /**
-   * @param buffer - Buffer of the file to IPFS
-   * @returns
-   * cid - object cid in IPFS
-   * size - size of file
-   * path - ipfs path
-   * mode - ipfs mode
+   * @notice Import a file or data into IPFS.
+   * @param buffer - File or data import candidate to IPFS.
+   * @param options - See AddOptions & HTTPClientExtraOptions.
+   * @returns cid - object cid in IPFS
+   *          size - size of file
+   *          path - ipfs path
+   *          mode - ipfs mode
    */
-  public async push(buffer: Buffer): Promise<IAddResult> {
-    const { cid, size, path, mode } = await this._client.add(buffer);
+  public async push(
+    buffer: ImportCandidate,
+    options?: (AddOptions & HTTPClientExtraOptions) | undefined,
+  ): Promise<AddResult> {
+    const { cid, size, path, mode } = await this._client.add(buffer, options);
+
     return {
       cid: new CID(cid.version, cid.code, cid.multihash, cid.bytes),
       size,
       path,
       mode,
     };
+  }
+
+  /**
+   * @notice Lists a directory from IPFS that is addressed by a valid IPFS Path.
+   * @param cid - object cid in IPFS.
+   * @param options - see ListOptions.
+   */
+  public async ls(
+    cid: string | CID,
+    options?: (ListOptions & HTTPClientExtraOptions) | undefined,
+  ) {
+    const chunks: IPFSEntry[] = [];
+    for await (const chunk of this._client.ls(cid, options)) {
+      chunks.push({
+        ...chunk,
+        cid: new CID(
+          chunk.cid.version,
+          chunk.cid.code,
+          chunk.cid.multihash,
+          chunk.cid.bytes,
+        ),
+      });
+    }
+    return chunks;
   }
 
   /**
