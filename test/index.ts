@@ -36,6 +36,17 @@ const start = async () => {
       .length,
   );
 
+  console.log(new Date());
+  console.log(
+    'ByteLength:',
+    (
+      await ipfsNode.fetch(
+        'QmfGF1urUaTyfNVK2VYURQTJe3SZJKB5AMUzcbU4gURZMc/217.mp4',
+      )
+    ).byteLength,
+  );
+  console.log(new Date());
+
   return { cid, random };
 };
 
