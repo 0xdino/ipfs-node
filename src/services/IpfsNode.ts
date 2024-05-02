@@ -1,10 +1,6 @@
 import { Helia } from 'helia';
 import { CatOptions, UnixFS, unixfs } from '@helia/unixfs';
-import {
-  HTTPClientExtraOptions,
-  IPFSHTTPClient,
-  create,
-} from 'kubo-rpc-client';
+import { KuboRPCClient, create } from 'kubo-rpc-client';
 import { Libp2p } from 'libp2p';
 import { CID } from 'multiformats';
 import {
@@ -16,11 +12,11 @@ import {
 } from '../types';
 
 export default class IpfsNode {
-  private readonly _client: IPFSHTTPClient;
+  private readonly _client: KuboRPCClient;
   private readonly _node: Helia<Libp2p>;
   private readonly _fs: UnixFS;
 
-  constructor(node: Helia<Libp2p>, client?: IPFSHTTPClient) {
+  constructor(node: Helia<Libp2p>, client?: KuboRPCClient) {
     this._node = node;
     this._fs = unixfs(this._node);
     if (client) {
@@ -58,7 +54,7 @@ export default class IpfsNode {
    */
   public async push(
     buffer: ImportCandidate,
-    options?: (AddOptions & HTTPClientExtraOptions) | undefined,
+    options?: AddOptions | undefined,
   ): Promise<AddResult> {
     const { cid, size, path, mode } = await this._client.add(buffer, options);
 
@@ -75,10 +71,7 @@ export default class IpfsNode {
    * @param cid - object cid in IPFS.
    * @param options - see ListOptions.
    */
-  public async ls(
-    cid: string | CID,
-    options?: (ListOptions & HTTPClientExtraOptions) | undefined,
-  ) {
+  public async ls(cid: string | CID, options?: ListOptions | undefined) {
     const chunks: IPFSEntry[] = [];
     for await (const chunk of this._client.ls(cid, options)) {
       chunks.push({
@@ -95,9 +88,9 @@ export default class IpfsNode {
   }
 
   /**
-   * @returns - IPFS HTTP Client
+   * @returns - Kubo RPC Client
    */
-  get client(): IPFSHTTPClient {
+  get client(): KuboRPCClient {
     return this._client;
   }
 

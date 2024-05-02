@@ -69,7 +69,7 @@ export interface AddOptions extends AbortOptions {
   blockWriteConcurrency?: number;
 }
 export interface Mtime {
-  secs: number;
+  secs: bigint;
   nsecs?: number;
 }
 export type MtimeLike =

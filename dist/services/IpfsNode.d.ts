@@ -1,7 +1,7 @@
 /// <reference types="node" />
 import { Helia } from 'helia';
 import { CatOptions } from '@helia/unixfs';
-import { HTTPClientExtraOptions, IPFSHTTPClient } from 'kubo-rpc-client';
+import { KuboRPCClient } from 'kubo-rpc-client';
 import { Libp2p } from 'libp2p';
 import { CID } from 'multiformats';
 import {
@@ -15,7 +15,7 @@ export default class IpfsNode {
   private readonly _client;
   private readonly _node;
   private readonly _fs;
-  constructor(node: Helia<Libp2p>, client?: IPFSHTTPClient);
+  constructor(node: Helia<Libp2p>, client?: KuboRPCClient);
   /**
    * @notice Retrieve the contents from node.
    * @param cid - object cid in IPFS.
@@ -37,7 +37,7 @@ export default class IpfsNode {
    */
   push(
     buffer: ImportCandidate,
-    options?: (AddOptions & HTTPClientExtraOptions) | undefined,
+    options?: AddOptions | undefined,
   ): Promise<AddResult>;
   /**
    * @notice Lists a directory from IPFS that is addressed by a valid IPFS Path.
@@ -46,12 +46,12 @@ export default class IpfsNode {
    */
   ls(
     cid: string | CID,
-    options?: (ListOptions & HTTPClientExtraOptions) | undefined,
+    options?: ListOptions | undefined,
   ): Promise<IPFSEntry[]>;
   /**
-   * @returns - IPFS HTTP Client
+   * @returns - Kubo RPC Client
    */
-  get client(): IPFSHTTPClient;
+  get client(): KuboRPCClient;
   /**
    * @returns - IPFS Helia Libp2p
    */

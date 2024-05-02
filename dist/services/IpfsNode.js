@@ -66,7 +66,7 @@ export default class IpfsNode {
     return chunks;
   }
   /**
-   * @returns - IPFS HTTP Client
+   * @returns - Kubo RPC Client
    */
   get client() {
     return this._client;

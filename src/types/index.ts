@@ -82,7 +82,7 @@ export interface AddOptions extends AbortOptions {
 }
 
 export interface Mtime {
-  secs: number;
+  secs: bigint;
   nsecs?: number;
 }
 
